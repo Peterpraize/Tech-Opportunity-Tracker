@@ -22,4 +22,4 @@ This log records development issues and testing observations identified during W
 
 ## Notes
 
-This log documents observed implementation decisions, tested behaviors, and known limitations. It does not claim that every possible edge case or accessibility requirement has been tested.
+This log documents observed implementation decisions, tested behaviors, and known limitations. It does not claim that every possible edge case or accessibility requirement has been tested.    
