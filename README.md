@@ -1,51 +1,3 @@
-# Tech Opportunity Tracker
-
-## Project Overview
-
-Tech Opportunity Tracker (TechTrack) is a responsive web application that helps users discover, search, filter, and save technology-related opportunities.
-
-The platform is designed for opportunities such as internships, scholarships, fellowships, entry-level jobs, and training programmes.
-
-**Important:** The current opportunities are fictitious sample data used for development and testing. They are not verified live openings.
-
-## Problem Statement
-
-Technology opportunities can be difficult to track when they are published across different platforms. Users need a simple interface for finding relevant opportunities and keeping track of listings that interest them.
-
-## Proposed Solution
-
-TechTrack provides a central interface for browsing opportunities, searching by keywords, filtering by category, and saving interesting listings.
-
-## Target Users
-
-- Students and recent graduates
-- Beginner and aspiring developers
-- People seeking technology training
-- Job seekers looking for technology opportunities
-
-## Technology Stack
-
-- React
-- Vite
-- JavaScript
-- HTML
-- CSS
-- ESLint
-- Fetch API and JSON for asynchronous sample-data loading
-
-## Current Features
-
-- Responsive user interface
-- Keyword search
-- Category filtering
-- Save and unsave opportunities
-- Loading state while opportunity data is retrieved
-- Friendly error message when data retrieval fails
-- Retry button for failed data requests
-- Empty-results message
-- Clear-filters action
-- Keyboard focus styling and accessible labels
-- Reusable opportunity card component
 
 ## Component Map and Project Structure
 
@@ -54,16 +6,48 @@ tech-opportunity-tracker/
 ├── public/
 │   └── opportunities.json
 ├── src/
+│   ├── assets/
+│   │   ├── hero.png
+│   │   ├── react.svg
+│   │   └── vite.svg
 │   ├── components/
+│   │   ├── ApplicantNav.jsx
+│   │   ├── ApplicantNav.css
+│   │   ├── Navbar.jsx
+│   │   ├── Navbar.css
 │   │   └── OpportunityCard.jsx
+│   ├── context/
+│   │   ├── SavedOpportunitiesContext.jsx
+│   │   ├── SavedOpportunitiesContext.js
+│   │   └── useSavedOpportunities.js
 │   ├── data/
 │   │   └── opportunities.js
+│   ├── pages/
+│   │   ├── Apply.jsx
+│   │   ├── Apply.css
+│   │   ├── Auth.css
+│   │   ├── Dashboard.jsx
+│   │   ├── Dashboard.css
+│   │   ├── Home.jsx
+│   │   ├── Login.jsx
+│   │   ├── MyApplications.jsx
+│   │   ├── MyApplications.css
+│   │   ├── NotFound.jsx
+│   │   ├── OpportunityDetails.jsx
+│   │   ├── OpportunityDetails.css
+│   │   ├── Profile.jsx
+│   │   ├── profile.css
+│   │   ├── Register.jsx
+│   │   ├── SavedOpportunities.jsx
+│   │   └── SavedOpportunities.css
 │   ├── services/
+│   │   ├── applicationService.js
 │   │   └── opportunityService.js
 │   ├── App.jsx
 │   ├── App.css
 │   ├── index.css
 │   └── main.jsx
+├── ISSUE-LOG.md
 ├── WEEK-1-REPORT.md
 ├── WEEK-2-REPORT.md
 ├── README.md
@@ -72,72 +56,24 @@ tech-opportunity-tracker/
 
 ### Main Components and Responsibilities
 
-- **App.jsx:** Main application component. Manages opportunity data, loading and error states, search, category filtering, saved opportunities, and the main page layout.
-- **OpportunityCard.jsx:** Reusable component that displays an individual opportunity, its details, and the save/unsave control.
-- **opportunityService.js:** Retrieves opportunity records asynchronously using `fetch`, validates the response, and reports errors.
-- **opportunities.json:** JSON data source fetched by the application.
-- **opportunities.js:** Local sample opportunity data retained in the project.
-- **App.css:** Styles the main application layout, opportunity cards, search controls, and other page elements.
-- **index.css:** Provides global styles and base styling.
-- **main.jsx:** React application entry point.
-
-## Getting Started
-
-### Prerequisites
-
-Install Node.js and npm.
-
-### Installation
-
-Clone or download the project repository and open its folder in the terminal.
-
-Run:
-
-```bash
-npm install
-npm run dev
-```
-
-Open the local address displayed in the terminal, usually `http://localhost:5173/`.
-
-### Production Build
-
-```bash
-npm run build
-```
-
-### Code Quality Check
-
-```bash
-npm run lint
-```
-
-## Testing and Validation
-
-The following checks have been completed during Week 2:
-
-- Application displays opportunity records.
-- Keyword search works.
-- Category filtering works.
-- Failed data requests display a friendly error.
-- The Try Again action successfully reloads the opportunities after the request is restored.
-- `npm run lint` passes.
-- `npm run build` passes.
-
-## Planned Improvements
-
-- Persist saved opportunities across page reloads.
-- Add routed opportunity details pages and a not-found page.
-- Add automated tests.
-- Conduct a formal accessibility audit.
-- Consider a backend and user accounts in a later development stage.
-
-## Project Status
-
-This project is being developed as part of the BuildLab Stage 1 Frontend Development programme.
-
-Week 2 includes reusable components, asynchronous sample-data retrieval, loading and error handling, retry functionality, search, and category filtering.
-
-## AI Use Declaration
-
-AI assistance was used to support interface development, debugging, and documentation. The developer is responsible for reviewing, testing, understanding, and validating the submitted work.
+- **`App.jsx`** — Configures the application's routes and shared saved-opportunity provider.
+- **`main.jsx`** — Entry point for the React application.
+- **`Navbar.jsx`** — Provides the main public navigation and responsive menu.
+- **`ApplicantNav.jsx`** — Provides navigation for the applicant workspace.
+- **`OpportunityCard.jsx`** — Reusable presentation component for individual opportunity listings and save controls.
+- **`Home.jsx`** — Main opportunity discovery page, including the listing and search experience.
+- **`OpportunityDetails.jsx`** — Displays details for a selected opportunity.
+- **`Apply.jsx`** — Provides the demonstration application interface.
+- **`Dashboard.jsx`** — Applicant workspace dashboard.
+- **`Profile.jsx`** — Demonstrates profile editing and browser-based storage.
+- **`SavedOpportunities.jsx`** — Displays saved listings and handles loading, error, retry, and empty states.
+- **`MyApplications.jsx`** — Displays locally stored demonstration application records.
+- **`Login.jsx` and `Register.jsx`** — Demonstration login and registration interfaces; they do not implement production authentication.
+- **`NotFound.jsx`** — Provides a not-found page component.
+- **`SavedOpportunitiesContext.jsx`** — Shares saved-opportunity state across relevant components.
+- **`useSavedOpportunities.js`** — Provides access to the saved-opportunity context.
+- **`opportunityService.js`** — Retrieves opportunity data asynchronously.
+- **`applicationService.js`** — Handles application-record operations for the demonstration.
+- **`opportunities.json`** — Public JSON source for opportunity records.
+- **`opportunities.js`** — Local sample opportunity data.
+- **CSS files** — Define styling for the corresponding components, pages, and global layout.

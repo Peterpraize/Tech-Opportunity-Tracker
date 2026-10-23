@@ -1,0 +1,84 @@
+
+.apply-page {
+  padding-bottom: 48px;
+}
+
+.apply-heading {
+  margin: 28px 0 20px;
+}
+
+.apply-heading h1 {
+  margin: 10px 0;
+}
+
+.apply-heading p {
+  color: #64748b;
+}
+
+.apply-demo-notice {
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #e5c978;
+  border-radius: 10px;
+  background: #fff8e5;
+  line-height: 1.6;
+}
+
+.apply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 680px;
+  padding: 24px;
+  border: 1px solid #e2e8e0;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.apply-form > label {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.apply-form input:not([type="checkbox"]),
+.apply-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5cf;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.apply-form input:focus,
+.apply-form textarea:focus {
+  outline: 2px solid #14532d;
+  outline-offset: 2px;
+}
+
+.apply-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 16px 0;
+  font-weight: 400 !important;
+  line-height: 1.5;
+}
+
+.apply-consent input {
+  margin-top: 5px;
+}
+
+.apply-form button {
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .apply-form {
+    padding: 16px;
+  }
+
+  .apply-form button {
+    width: 100%;
+  }
+}

@@ -1,5 +1,11 @@
 
-function OpportunityCard({ opportunity, isSaved, onToggleSaved }) {
+import { Link } from 'react-router-dom'
+import { useSavedOpportunities } from '../context/useSavedOpportunities'
+
+function OpportunityCard({ opportunity }) {
+  const { savedIds, toggleSaved } = useSavedOpportunities()
+  const isSaved = savedIds.includes(opportunity.id)
+
   return (
     <article className="opportunity-card">
       <div className="card-topline">
@@ -10,13 +16,11 @@ function OpportunityCard({ opportunity, isSaved, onToggleSaved }) {
         </span>
 
         <button
-          className={`save-button ${isSaved ? 'is-saved' : ''}`}
           type="button"
-          onClick={() => onToggleSaved(opportunity.id)}
+          onClick={() => toggleSaved(opportunity.id)}
           aria-pressed={isSaved}
-          aria-label={`${isSaved ? 'Remove' : 'Save'} ${opportunity.title}`}
         >
-          {isSaved ? '♥' : '♡'}
+          {isSaved ? '♥ Saved' : '♡ Save'}
         </button>
       </div>
 
@@ -24,7 +28,14 @@ function OpportunityCard({ opportunity, isSaved, onToggleSaved }) {
         {opportunity.organization}
       </div>
 
-      <h3>{opportunity.title}</h3>
+      <h3>
+        <Link
+          to={`/opportunities/${opportunity.id}`}
+          className="opportunity-title-link"
+        >
+          {opportunity.title}
+        </Link>
+      </h3>
 
       <p className="card-description">
         {opportunity.description}
@@ -44,8 +55,17 @@ function OpportunityCard({ opportunity, isSaved, onToggleSaved }) {
           <span>Deadline: {opportunity.deadline}</span>
         </div>
 
-        <span className="work-type">{opportunity.type}</span>
+        <span className="work-type">
+          {opportunity.type}
+        </span>
       </div>
+
+      <Link
+        to={`/opportunities/${opportunity.id}`}
+        className="secondary-button"
+      >
+        View details →
+      </Link>
     </article>
   )
 }
