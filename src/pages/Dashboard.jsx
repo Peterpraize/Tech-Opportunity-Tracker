@@ -7,14 +7,15 @@ function Dashboard() {
   return (
     <main className="dashboard-page">
       <ApplicantNav />
+
       <section className="dashboard-welcome">
-        <p className="dashboard-eyebrow">APPLICANT DASHBOARD · DEMO</p>
+        <p className="dashboard-eyebrow">YOUR CAREER JOURNEY</p>
 
         <h1>Your next opportunity starts here.</h1>
 
         <p>
-          Discover opportunities, manage your applications, and keep
-          track of your progress with TechTrack.
+          Discover opportunities, organise your interests, and
+          take the next step towards your career goals with TechTrack.
         </p>
 
         <Link to="/" className="dashboard-primary-button">
@@ -26,34 +27,36 @@ function Dashboard() {
         <div className="dashboard-section-heading">
           <div>
             <h2>Your activity</h2>
-            <p>
-              These are demonstration figures, not personal account data.
-            </p>
+            <p>A quick overview of your opportunity search.</p>
           </div>
-
-          <span className="dashboard-demo-badge">Demo data</span>
         </div>
 
         <div className="dashboard-stats">
           <article className="dashboard-stat-card">
-            <span className="dashboard-stat-icon">♡</span>
+            <span className="dashboard-stat-icon" aria-hidden="true">
+              ♡
+            </span>
             <h3>Saved opportunities</h3>
             <p className="dashboard-stat-number">0</p>
             <p>Opportunities you want to revisit.</p>
           </article>
 
           <article className="dashboard-stat-card">
-            <span className="dashboard-stat-icon">↗</span>
+            <span className="dashboard-stat-icon" aria-hidden="true">
+              ↗
+            </span>
             <h3>Applications</h3>
             <p className="dashboard-stat-number">0</p>
-            <p>Applications you have submitted.</p>
+            <p>Keep track of opportunities you pursue.</p>
           </article>
 
           <article className="dashboard-stat-card">
-            <span className="dashboard-stat-icon">◷</span>
+            <span className="dashboard-stat-icon" aria-hidden="true">
+              ◷
+            </span>
             <h3>Upcoming deadlines</h3>
             <p className="dashboard-stat-number">0</p>
-            <p>Deadlines approaching for your opportunities.</p>
+            <p>Stay aware of important closing dates.</p>
           </article>
         </div>
       </section>
@@ -62,7 +65,7 @@ function Dashboard() {
         <div className="dashboard-section-heading">
           <div>
             <h2>Continue your journey</h2>
-            <p>Quick access to the things that matter.</p>
+            <p>Quick access to your next steps.</p>
           </div>
         </div>
 
@@ -80,19 +83,10 @@ function Dashboard() {
           >
             <span>02</span>
             <h3>My applications</h3>
-            <p>View your application tracking page.</p>
+            <p>Review the application records saved in your browser.</p>
             <strong>View applications →</strong>
           </Link>
         </div>
-      </section>
-
-      <section className="dashboard-note">
-        <strong>About this preview</strong>
-        <p>
-          This dashboard is a frontend demonstration. Real account
-          information, saved opportunities, and application tracking
-          will require secure authentication and persistent storage.
-        </p>
       </section>
     </main>
   )

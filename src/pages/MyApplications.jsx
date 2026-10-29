@@ -17,35 +17,24 @@ function MyApplications() {
           <span className="section-kicker">YOUR ACTIVITY</span>
           <h1>My Applications</h1>
           <p>
-            Review the demo application records you have saved
-            in this browser.
+            Keep track of the opportunities you have expressed
+            interest in.
           </p>
-        </div>
-
-        <div className="applications-demo-notice" role="note">
-          <strong>Demo mode:</strong> These records are stored in this
-          browser only. They are not real submissions, and no
-          opportunity provider has received them.
         </div>
 
         <div className="applications-summary">
           <div className="applications-summary-card">
-            <span>Total records</span>
+            <span>Applications recorded</span>
             <strong>{applications.length}</strong>
-          </div>
-
-          <div className="applications-summary-card">
-            <span>Record type</span>
-            <strong>Demo</strong>
           </div>
         </div>
 
         {applications.length === 0 ? (
           <div className="empty-state">
-            <h2>No applications yet</h2>
+            <h2>Your next opportunity awaits</h2>
             <p>
-              Explore opportunities and complete a demo application
-              to see your record here.
+              Explore available opportunities and find one that
+              matches your skills and career goals.
             </p>
 
             <Link to="/" className="primary-button">
@@ -55,10 +44,12 @@ function MyApplications() {
         ) : (
           <section className="applications-records">
             <div className="applications-records-heading">
-              <h2>Your application records</h2>
+              <h2>Your application history</h2>
               <span>
                 {applications.length}{' '}
-                {applications.length === 1 ? 'record' : 'records'}
+                {applications.length === 1
+                  ? 'record'
+                  : 'records'}
               </span>
             </div>
 
@@ -70,7 +61,7 @@ function MyApplications() {
                 >
                   <div className="application-record-top">
                     <span className="application-demo-status">
-                      {application.status || 'Demo record'}
+                      {application.status || 'Recorded'}
                     </span>
 
                     <span className="application-record-date">
@@ -113,7 +104,7 @@ function MyApplications() {
 
                   {application.message && (
                     <div className="application-interest">
-                      <strong>Interest statement</strong>
+                      <strong>Statement of interest</strong>
                       <p>{application.message}</p>
                     </div>
                   )}

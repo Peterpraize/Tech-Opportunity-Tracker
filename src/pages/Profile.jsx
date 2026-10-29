@@ -76,7 +76,7 @@ function Profile() {
       )
 
       setError('')
-      setMessage('Your profile has been saved in this browser.')
+      setMessage('Your profile has been saved successfully.')
       setIsSaved(true)
     } catch {
       setError(
@@ -91,7 +91,7 @@ function Profile() {
     try {
       localStorage.removeItem(PROFILE_STORAGE_KEY)
       setProfile(initialProfile)
-      setMessage('Your locally saved profile has been cleared.')
+      setMessage('Your profile has been cleared.')
       setError('')
       setIsSaved(false)
     } catch {
@@ -274,13 +274,7 @@ function Profile() {
             {message}
           </p>
         )}
-      </form>
-
-      <p className="profile-demo-note">
-        Demo notice: profile information is saved in this browser only.
-        It is not connected to an account or shared with organizations.
-        Use fictional details for testing if you prefer.
-      </p>
+      </form>     
     </main>
   )
 }

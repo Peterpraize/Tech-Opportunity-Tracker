@@ -1,27 +1,24 @@
 
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import '../App.css'
-import './Auth.css'
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import '../App.css';
+import './Auth.css';
 
 function Login() {
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [message, setMessage] = useState(
-    location.state?.demoNotice || ''
-  )
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
     setMessage(
-      'Demo only: no account was authenticated. TechTrack does not yet have real login functionality. Please do not enter a real password.'
-    )
+      'Login is not available yet. Account services have not been connected. Please do not enter a real password.'
+    );
 
-    setPassword('')
+    setPassword('');
   }
 
   return (
@@ -34,14 +31,6 @@ function Login() {
         <p className="auth-description">
           Continue exploring opportunities and preparing for your future.
         </p>
-
-        <div className="auth-demo-banner" role="note">
-          <strong>Demo mode</strong>
-          <p>
-            This form does not sign you in. Use fictional details
-            to explore the interface.
-          </p>
-        </div>
 
         {message && (
           <p className="auth-notice" role="status">
@@ -72,12 +61,12 @@ function Login() {
             autoComplete="off"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="Do not use a real password"
+            placeholder="Password unavailable until account services are connected"
             required
           />
 
           <button className="primary-button" type="submit">
-            Try Login Demo
+            Sign in
           </button>
         </form>
 
@@ -93,15 +82,9 @@ function Login() {
         >
           Back to Home
         </button>
-
-        <p className="auth-demo-note">
-          Demo limitation: this form does not authenticate users,
-          create sessions, or send credentials to a server.
-          Registration does not create a real account.
-        </p>
       </section>
     </main>
-  )
+  );
 }
 
-export default Login
+export default Login;

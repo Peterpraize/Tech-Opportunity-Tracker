@@ -22,7 +22,6 @@ function Home() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  // Use the shared context so saved counts and cards stay synchronized.
   const { savedIds } = useSavedOpportunities()
 
   async function loadOpportunities() {

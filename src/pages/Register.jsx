@@ -17,7 +17,8 @@ function Register() {
 
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const [demoReady, setDemoReady] = useState(false)
+  const [registrationChecked, setRegistrationChecked] =
+    useState(false)
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target
@@ -29,14 +30,14 @@ function Register() {
 
     setError('')
     setMessage('')
-    setDemoReady(false)
+    setRegistrationChecked(false)
   }
 
   function handleSubmit(event) {
     event.preventDefault()
     setError('')
     setMessage('')
-    setDemoReady(false)
+    setRegistrationChecked(false)
 
     if (form.password !== form.confirmPassword) {
       setError('Your passwords do not match.')
@@ -45,31 +46,21 @@ function Register() {
 
     if (!form.agree) {
       setError(
-        'Please confirm that you understand this is a demonstration.'
+        'Please confirm that you understand how registration works.'
       )
       return
     }
 
     setMessage(
-      'Demo validation successful. No account has been created, and your details have not been saved.'
+      'Your details have been checked, but an account has not been created. Account registration will be available when account services are connected.'
     )
-    setDemoReady(true)
+    setRegistrationChecked(true)
 
-    // Clear password fields immediately after demo validation.
     setForm((previous) => ({
       ...previous,
       password: '',
       confirmPassword: '',
     }))
-  }
-
-  function continueToLogin() {
-    navigate('/login', {
-      state: {
-        demoNotice:
-          'Registration was only a demonstration. No account was created, so you cannot log in with the details entered here.',
-      },
-    })
   }
 
   return (
@@ -80,16 +71,9 @@ function Register() {
         <h1>Create your account</h1>
 
         <p className="auth-description">
-          Start discovering opportunities for your next career step.
+          Build your profile and get ready to explore opportunities
+          that match your career goals.
         </p>
-
-        <div className="auth-demo-banner" role="note">
-          <strong>Frontend demonstration</strong>
-          <p>
-            You can test the form, but registration is not connected
-            to a real account system. Use fictional details.
-          </p>
-        </div>
 
         {error && (
           <p className="auth-notice auth-error" role="alert">
@@ -130,13 +114,13 @@ function Register() {
             required
           />
 
-          <label htmlFor="register-password">Demo password</label>
+          <label htmlFor="register-password">Password</label>
 
           <input
             id="register-password"
             name="password"
             type="password"
-            autoComplete="off"
+            autoComplete="new-password"
             minLength={8}
             value={form.password}
             onChange={handleChange}
@@ -145,18 +129,18 @@ function Register() {
           />
 
           <label htmlFor="register-confirm-password">
-            Confirm demo password
+            Confirm password
           </label>
 
           <input
             id="register-confirm-password"
             name="confirmPassword"
             type="password"
-            autoComplete="off"
+            autoComplete="new-password"
             minLength={8}
             value={form.confirmPassword}
             onChange={handleChange}
-            placeholder="Enter the same password again"
+            placeholder="Enter your password again"
             required
           />
 
@@ -170,28 +154,28 @@ function Register() {
             />
 
             <span>
-              I understand this is a frontend demonstration and my
-              account details will not be saved.
+              I understand that submitting this form does not create
+              an account yet.
             </span>
           </label>
 
           <button className="primary-button" type="submit">
-            Validate Registration Demo
+            Check registration details
           </button>
         </form>
 
-        {demoReady && (
+        {registrationChecked && (
           <button
             className="primary-button register-continue-button"
             type="button"
-            onClick={continueToLogin}
+            onClick={() => navigate('/login')}
           >
-            Continue to Login Demo
+            Go to login
           </button>
         )}
 
         <p className="auth-switch">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Log in</Link>
         </p>
 
         <button
@@ -199,13 +183,8 @@ function Register() {
           type="button"
           onClick={() => navigate('/')}
         >
-          Back to Home
+          Back to home
         </button>
-
-        <p className="auth-demo-note">
-          No account is created, no password is stored, and no
-          details are sent to a server. Do not enter a real password.
-        </p>
       </section>
     </main>
   )

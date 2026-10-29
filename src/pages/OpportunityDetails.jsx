@@ -127,11 +127,7 @@ function OpportunityDetails() {
               </div>
             </div>
 
-            {opportunity.isSample && (
-              <p role="note">
-                Demo listing: this is sample data, not a verified live opening.
-              </p>
-            )}
+            
 
             <article className="opportunity-card opportunity-details-card">
               <div className="opportunity-details-info">

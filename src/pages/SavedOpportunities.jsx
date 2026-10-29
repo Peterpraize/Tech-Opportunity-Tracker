@@ -139,12 +139,7 @@ function SavedOpportunities() {
               ))}
             </div>
           </>
-        )}
-
-      <p className="saved-demo-note">
-        Demo notice: saved items are stored in this browser only.
-        They are not synced to a TechTrack account or another device.
-      </p>
+        )}      
     </main>
   )
 }

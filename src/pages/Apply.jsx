@@ -127,12 +127,9 @@ function Apply() {
           <p>{opportunity.organization}</p>
         </div>
 
-        {opportunity.isSample && (
-          <p className="apply-demo-notice" role="note">
-            Demo only: this is sample opportunity data. Submitting this form
-            will not send an application to the organization.
-          </p>
-        )}
+        <p className="apply-demo-notice" role="note">
+  I confirm that my information is accurate and consent to TechTrack processing my data and sharing my application with the opportunity provider in accordance with the Privacy Policy.
+</p>
 
         <form className="apply-form" onSubmit={handleSubmit}>
           <label htmlFor="fullName">Full name</label>
@@ -188,8 +185,7 @@ function Apply() {
               onChange={handleChange}
               required
             />
-            I understand this is a frontend demonstration and my application
-            will not be sent to the opportunity provider.
+           I consent to the processing of my personal information in accordance with TechTrack’s Privacy Policy.
           </label>
 
           <button className="primary-button" type="submit">

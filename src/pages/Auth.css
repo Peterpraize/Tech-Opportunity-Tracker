@@ -82,12 +82,6 @@
   cursor: pointer;
 }
 
-.auth-demo-note {
-  margin-top: 20px;
-  color: #64748b;
-  font-size: 0.85rem;
-}
-
 @media (max-width: 480px) {
   .auth-card {
     padding: 22px;
@@ -97,23 +91,6 @@
 .auth-description {
   color: #68766d;
   line-height: 1.7;
-}
-
-.auth-demo-banner {
-  margin: 22px 0;
-  padding: 16px;
-  border: 1px solid #e4e9e2;
-  border-left: 4px solid #d4a72c;
-  border-radius: 10px;
-  background: #fbf7ec;
-  color: #59665d;
-  line-height: 1.6;
-}
-
-.auth-demo-banner strong {
-  display: block;
-  margin-bottom: 5px;
-  color: #173b2a;
 }
 
 .auth-demo-banner p {
@@ -142,7 +119,6 @@
   outline-offset: 3px;
 }
 
-/* Registration page refinements */
 .register-continue-button {
   width: 100%;
   margin-top: 14px;

@@ -9,7 +9,7 @@ function ApplicantNav() {
       aria-label="Applicant navigation"
     >
       <p className="applicant-nav-heading">
-        APPLICANT WORKSPACE
+        MY ACCOUNT
       </p>
 
       <div className="applicant-nav-links">
@@ -29,11 +29,6 @@ function ApplicantNav() {
           My Applications
         </NavLink>
       </div>
-
-      <p className="applicant-nav-notice">
-        Demo workspace — these pages do not require real account
-        authentication yet.
-      </p>
     </nav>
   )
 }
