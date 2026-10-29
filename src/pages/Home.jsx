@@ -213,7 +213,7 @@ function Home() {
             <span className="stat-number">
               {String(opportunities.length).padStart(2, '0')}
             </span>
-            <span className="stat-label">Sample opportunities</span>
+            <span className="stat-label"> opportunities</span>
           </div>
 
           <div className="stat-divider" />
