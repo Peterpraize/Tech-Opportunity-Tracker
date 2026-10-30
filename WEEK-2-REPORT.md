@@ -131,7 +131,3 @@ Week 2 expanded TechTrack beyond opportunity discovery by developing reusable UI
 The project includes a dashboard, profile interface, saved-opportunities view, demo login and registration pages, and a view of locally stored demo application records. These are frontend prototype features; production authentication, backend persistence, and real application processing remain outside the current implementation.
 
 The latest ESLint and production build checks both passed. Final application, deployment, repository, and release-tag verification remain the final steps before submission.
-
-## AI Use Declaration
-
-AI assistance was used to support frontend implementation, debugging, development planning, and documentation. The developer is responsible for reviewing the code, understanding the implementation, validating behavior, and ensuring that the submitted work accurately represents the project.

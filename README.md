@@ -1,125 +1,183 @@
 # TechTrack — Tech Opportunity Tracker
 
-TechTrack is a React-based frontend application designed to help users discover technology opportunities, explore listing details, save opportunities, and track application records. The project demonstrates the core user experience of a technology opportunity platform.
+TechTrack is a frontend-based talent and opportunity matching platform designed to connect job seekers with organisations offering employment and other professional opportunities.
 
-**Live Demo:** https://tech-opportunity-tracker-three.vercel.app/  
-**GitHub Repository:** https://github.com/Peterpraize/Tech-Opportunity-Tracker
+The platform provides separate experiences for applicants, companies and administrators. Applicants can create profiles, upload CVs, explore opportunities and submit applications. Companies can submit opportunities for review, while administrators manage offers, screen applicants and use an ATS-style tool to assess candidate suitability.
 
-## 1. Project Overview
+## Project Overview
 
-Finding relevant technology opportunities can be challenging when information is scattered across different platforms. TechTrack provides a centralized interface for exploring opportunities and organizing a user's interest in them.
+**Project name:** TechTrack — Tech Opportunity Tracker  
+**Version:** 0.0.0  
+**Application type:** Frontend web application  
+**Status:** Functional prototype  
+**Architecture:** Role-based frontend application  
+**Repository:** https://github.com/Peterpraize/Tech-Opportunity-Tracker  
+**Live application:** https://tech-opportunity-tracker-three.vercel.app/
 
-The longer-term product vision is to develop TechTrack into a technology recruitment and talent-placement service. In that model, TechTrack would screen applicants, assess their skills, and refer qualified candidates to companies. The current project is the frontend foundation for that vision; the complete recruitment workflow is not yet implemented.
+## Technology Stack
 
-## 2. Features
+### Core technologies
 
-The current frontend demonstration includes:
+- React 19
+- JavaScript (ES Modules)
+- Vite 8
+- React Router 7
+- CSS
+- Tailwind CSS 4
 
-- Opportunity discovery and browsing.
-- Search and category filtering.
-- Individual opportunity detail pages.
-- Save and unsave opportunity functionality.
-- Browser-based persistence for saved opportunities.
-- An application form demonstration.
-- Local application records and a My Applications page.
-- Applicant dashboard and profile interfaces.
-- Demonstration login and registration interfaces.
-- Responsive navigation and mobile-friendly layouts.
-- A custom not-found page for invalid routes.
-- Form validation and user feedback.
+### UI and styling
 
-**Important:** Opportunity records may be sample data. Users should verify any opportunity's availability and legitimacy independently.
+- Lucide React — icons
+- Base UI React — interface primitives
+- Class Variance Authority — component variants
+- clsx — conditional class names
+- tailwind-merge — Tailwind class merging
+- Geist Variable Font
 
-## 3. Technology Stack
+### CV processing and ATS
 
-| Technology | Purpose |
+- PDF.js — extracting text from PDF CVs
+- Mammoth — extracting text from DOCX CVs
+
+### Testing and code quality
+
+- Vitest
+- React Testing Library
+- Testing Library User Event
+- Jest DOM
+- ESLint
+
+## Main Features
+
+### 1. Applicant Features
+
+Applicants can:
+
+- Register and log in.
+- Create and manage their profiles.
+- Upload profile photographs.
+- Upload CVs in PDF and DOCX formats.
+- Browse available opportunities.
+- View opportunity details.
+- Submit applications.
+- Save opportunities.
+- View their application history.
+- Access their applicant dashboard.
+
+### 2. Company Features
+
+Companies can:
+
+- Register and log in using a company account.
+- Access a dedicated company dashboard.
+- Submit new opportunities.
+- Track submitted offers.
+- View the approval status of submitted opportunities.
+
+Company-submitted opportunities are subject to administrator review before approval.
+
+### 3. Administrator Features
+
+Administrators can:
+
+- Access a dedicated administration dashboard.
+- Review submitted company opportunities.
+- Approve or reject submitted offers.
+- View registered applicant profiles.
+- Screen applicants.
+- Run CV analysis using the ATS functionality.
+- Review matched and missing keywords.
+- View candidate suitability scores.
+- Propose applicants for approved opportunities.
+- Track proposed matches and their outcomes.
+
+### 4. Applicant Tracking System (ATS)
+
+TechTrack includes a rule-based ATS feature that extracts CV text and compares it against opportunity requirements.
+
+The ATS supports:
+
+- PDF CV text extraction using PDF.js.
+- DOCX CV text extraction using Mammoth.
+- Keyword matching.
+- Matched keyword identification.
+- Missing keyword identification.
+- Candidate suitability scoring.
+- ATS result storage for subsequent review.
+
+The current ATS uses rule-based keyword comparison. It is not an AI-powered recruitment engine and does not perform semantic understanding of CV content.
+
+### 5. Opportunity Matching
+
+The platform supports a structured matching workflow:
+
+1. A company submits an opportunity.
+2. An administrator reviews the submission.
+3. The administrator approves or rejects the opportunity.
+4. Applicants are screened.
+5. The administrator runs candidate assessments.
+6. Suitable applicants can be proposed for approved opportunities.
+7. Match outcomes can be tracked.
+
+Match statuses include:
+
+- Proposed
+- Under discussion
+- Successful
+- Unsuccessful
+- Cancelled
+
+## User Roles and Access Control
+
+TechTrack provides three main user roles.
+
+| Role | Access |
 |---|---|
-| React | Building reusable UI components |
-| Vite | Development server and production build |
-| JavaScript (ES modules) | Application logic |
-| React Router DOM | Client-side navigation |
-| CSS | Layout, styling, and responsive design |
-| Lucide React | Icons |
-| Vitest | Automated tests |
-| React Testing Library | Component and user-interface testing |
-| ESLint | Code quality and linting |
-| localStorage | Browser-based persistence for demonstration data |
+| Applicant | Applicant dashboard, profile, applications and saved opportunities |
+| Company | Company dashboard and opportunity submission |
+| Administrator | Administration dashboard, offer management, applicant screening, ATS and matching |
 
-The project also includes Tailwind CSS v4 and related UI tooling.
+Protected routes are used to restrict access to role-specific sections of the application.
 
-## 4. Getting Started
+**Demo authentication notice:** Authentication currently uses browser storage and demonstration account logic. It is intended for prototype testing and does not provide production-grade security.
 
-### Prerequisites
-
-Install a compatible version of Node.js and npm.
-
-### Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/Peterpraize/Tech-Opportunity-Tracker.git
-```
-
-Navigate into the project directory:
-
-```bash
-cd Tech-Opportunity-Tracker
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-Open the local URL displayed in your terminal, usually `http://localhost:5173`.
-
-## 5. Available Scripts
-
-Run these commands from the project root.
-
-| Command | Description |
-|---|---|
-| `npm run dev` | Starts the development server |
-| `npm run lint` | Runs ESLint |
-| `npm run test -- --run` | Runs the automated tests once |
-| `npm run build` | Creates the production build |
-| `npm run preview` | Previews the production build locally |
-
-Before submitting changes, run:
-
-```bash
-npm run lint
-npm run test -- --run
-npm run build
-```
-
-## 6. Project Structure
+## Project Structure
 
 ```text
 tech-opportunity-tracker/
+│
 ├── public/
-│   └── opportunities.json
+│
 ├── src/
 │   ├── assets/
+│   │
 │   ├── components/
+│   │   ├── ui/
 │   │   ├── ApplicantNav.jsx
 │   │   ├── Navbar.jsx
-│   │   └── OpportunityCard.jsx
+│   │   ├── OpportunityCard.jsx
+│   │   └── ProtectedRoute.jsx
+│   │
 │   ├── context/
+│   │   ├── AuthContext.jsx
+│   │   ├── AuthContextValue.js
+│   │   ├── demoAccounts.js
 │   │   ├── SavedOpportunitiesContext.jsx
+│   │   ├── SavedOpportunitiesContext.js
+│   │   ├── useAuth.js
 │   │   └── useSavedOpportunities.js
+│   │
 │   ├── data/
 │   │   └── opportunities.js
+│   │
+│   ├── lib/
+│   │   └── utils.ts
+│   │
 │   ├── pages/
+│   │   ├── AdminDashboard.jsx
 │   │   ├── Apply.jsx
+│   │   ├── CompanyDashboard.jsx
+│   │   ├── CompanyOfferForm.jsx
 │   │   ├── Dashboard.jsx
 │   │   ├── Home.jsx
 │   │   ├── Login.jsx
@@ -129,112 +187,132 @@ tech-opportunity-tracker/
 │   │   ├── Profile.jsx
 │   │   ├── Register.jsx
 │   │   └── SavedOpportunities.jsx
+│   │
 │   ├── services/
 │   │   ├── applicationService.js
 │   │   └── opportunityService.js
-│   ├── App.jsx
+│   │
+│   ├── test/
+│   │   └── setup.js
+│   │
 │   ├── App.css
+│   ├── App.jsx
+│   ├── App.test.jsx
 │   ├── index.css
 │   └── main.jsx
+│
 ├── evidence/
-├── IDEA.md
-├── ISSUE-LOG.md
-├── README.md
-├── WEEK-1-REPORT.md
-├── WEEK-2-REPORT.md
-├── WORK_PLAN.md
+├── index.html
 ├── package.json
-└── vite.config.js
+├── package-lock.json
+├── vite.config.js
+├── eslint.config.js
+└── README.md
 ```
 
-### Main Components
+### Architecture Overview
 
-- **App.jsx:** Configures application routes and shared saved-opportunity state.
-- **main.jsx:** Application entry point.
-- **Navbar.jsx:** Public navigation and responsive menu.
-- **ApplicantNav.jsx:** Navigation for the applicant workspace.
-- **OpportunityCard.jsx:** Reusable opportunity listing and save controls.
-- **Home.jsx:** Opportunity discovery, search, and category filtering.
-- **OpportunityDetails.jsx:** Details for a selected opportunity.
-- **Apply.jsx:** Demonstration application form.
-- **Dashboard.jsx:** Applicant dashboard interface.
-- **Profile.jsx:** Demonstration profile editing.
-- **SavedOpportunities.jsx:** Displays saved listings and relevant UI states.
-- **MyApplications.jsx:** Displays locally stored application records.
-- **Login.jsx and Register.jsx:** Demonstration authentication interfaces.
-- **NotFound.jsx:** Handles unmatched application routes.
-- **SavedOpportunitiesContext.jsx:** Shares saved-opportunity state.
-- **opportunityService.js:** Retrieves opportunity data.
-- **applicationService.js:** Manages demonstration application records.
+- **components:** Reusable interface elements, navigation and route protection.
+- **context:** Authentication, demonstration accounts and saved-opportunity state.
+- **data:** Opportunity data used by the application.
+- **lib:** Shared utility functions.
+- **pages:** Main application screens for applicants, companies and administrators.
+- **services:** Application and opportunity-related operations.
+- **test:** Test configuration and setup.
+- **assets:** Images and other frontend assets.
 
-## 7. Data Storage and Limitations
+## Installation and Setup
 
-This version is a frontend demonstration and does not yet have a production backend.
+### Requirements
 
-- **Application records:** Stored in the browser rather than submitted to an employer or recruitment system.
-- **Saved opportunities:** Persist in browser storage where supported.
-- **Authentication:** Login and registration interfaces are demonstrations; they do not provide real account authentication.
-- **Opportunity data:** Sample or locally supplied records should not be treated as verified live vacancies.
-- **Recruitment workflow:** Candidate screening, technical assessments, interview scheduling, employer referrals, and final hiring decisions are not implemented as a live service.
-- **Data availability:** Browser-stored information is not shared automatically across devices or browsers and may be lost if the user clears site data.
+- Node.js
+- npm
+- Git
 
-Users should not enter sensitive personal information into this demonstration.
+### 1. Clone the repository
 
-## 8. Testing and Quality Checks
+```bash
+git clone https://github.com/Peterpraize/Tech-Opportunity-Tracker.git
+```
 
-The project includes automated tests using Vitest and React Testing Library.
+### 2. Enter the project directory
 
-The current test suite covers:
+```bash
+cd Tech-Opportunity-Tracker
+```
 
-- Main navigation links.
-- Not-found route behavior.
-- Home-page rendering and opportunity data requests.
+### 3. Install dependencies
 
-The development verification process also includes ESLint checks and a production build.
+```bash
+npm install
+```
 
-Manual checks previously completed for this project include:
+### 4. Start the development server
 
-- Opportunity browsing, searching, and category filtering.
-- Saving opportunities and checking persistence after refresh.
-- Viewing opportunity details and using the application form.
-- Checking local application records.
-- Invalid-route handling.
-- Mobile layout at a 375-pixel viewport.
-- Keyboard navigation, visible focus, form labels, validation feedback, and mobile-menu accessibility.
+```bash
+npm run dev
+```
 
-These manual checks are development evidence, not a formal accessibility certification. Test results should be rerun against the final submitted version.
+Open the local address displayed in your terminal to access TechTrack.
 
-## 9. Deployment
+## Available Commands
 
-The frontend demonstration is deployed on Vercel:
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Starts the Vite development server |
+| `npm run build` | Creates the production build |
+| `npm run preview` | Previews the production build locally |
+| `npm run lint` | Runs ESLint |
+| `npm test` | Runs the Vitest test suite |
 
-https://tech-opportunity-tracker-three.vercel.app/
+To run tests once without watch mode:
 
-The deployed application should be checked after each final deployment to confirm that the latest changes are available and that direct navigation to application routes works correctly.
+```bash
+npm test -- --run
+```
 
-## 10. Future Improvements
+## Data Storage
 
-The next development phase could introduce:
+The current prototype uses browser storage to retain application information.
 
-1. A Node.js and Express backend.
-2. A PostgreSQL database for users, opportunities, applications, and recruitment records.
-3. Secure authentication and role-based access for applicants, companies, and administrators.
-4. Employer registration and vacancy management.
-5. Candidate screening, technical assessment, and interview scheduling.
-6. Consent-based candidate referrals and recruitment progress tracking.
-7. Email notifications and status updates.
-8. Administrative tools for reviewing companies and opportunity listings.
-9. Privacy, security, and data-retention controls.
-10. Additional automated tests, including accessibility and end-to-end workflows.
+Depending on the feature, the application uses:
 
-## 11. Project Learning Outcomes
+- `localStorage` for persistent demonstration records.
+- `sessionStorage` for the active demonstration login session.
 
-This project provides practical experience with component-based React development, client-side routing, reusable UI components, browser storage, responsive styling, form validation, automated testing, linting, and production builds.
+This allows the prototype to retain data across browser refreshes on the same browser.
 
-The project also demonstrates the importance of distinguishing a working frontend prototype from a complete production service.
+There is currently no connected backend API or production database.
 
-## 12. Project Status
+## Current Limitations
 
-**Current stage:** Frontend demonstration and submission preparation.
+The following limitations should be considered before production deployment:
 
-The project establishes the initial user interface and core browser-side workflows for TechTrack. A production recruitment platform will require backend services, secure authentication, persistent server-side data, and the recruitment processes described in the future-improvements section.
+1. Authentication is demonstration-only and does not provide secure password verification.
+2. User records and application data are stored in the browser.
+3. Browser storage is not suitable for secure or large-scale production data management.
+4. ATS results are based on keyword matching, not advanced AI assessment.
+5. Scanned PDFs and image-based CVs are not supported by the current text-extraction workflow without OCR.
+6. Data is not synchronised across different browsers or devices.
+7. Role restrictions in the frontend are not a substitute for server-side authorisation.
+
+## Future Development
+
+Potential next development stages include:
+
+- Backend API development.
+- Secure authentication and password management.
+- PostgreSQL database integration.
+- Server-side role-based access control.
+- Cloud-based CV storage.
+- More advanced candidate matching.
+- Email notifications.
+- Company verification.
+- Application and recruitment analytics.
+- Production deployment and security testing.
+
+## Project Objective
+
+TechTrack aims to provide a structured digital environment where applicants can discover opportunities, companies can submit recruitment offers, and administrators can manage the opportunity approval, applicant screening and candidate matching process.
+
+The project demonstrates frontend engineering, role-based application architecture, browser-based data management, document processing and recruitment workflow implementation.

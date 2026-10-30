@@ -37,24 +37,21 @@ The interface was adjusted to improve its mobile layout. The developer tested th
 - Saved opportunities currently use application state and may not persist after a page reload.
 - Further accessibility verification and automated testing remain to be completed.
 
-## 5. AI Use and Sources
 
-AI assistance was used to help develop and refine the interface, CSS, and documentation. The developer reviewed and tested the implementation. External sources and additional tools used should be listed here where applicable.
-
-## 6. Project Links
+## 5. Project Links
 
 - **GitHub repository:** https://github.com/Peterpraize/Tech-Opportunity-Tracker
 - **Live application:** https://tech-opportunity-tracker-three.vercel.app/
 - **Week 1 tag:** https://github.com/Peterpraize/Tech-Opportunity-Tracker/releases/tag/week-1
 - **Evidence folder:** `evidence/` in the GitHub repository
 
-## 7. Next Steps
+## 6. Next Steps
 
 - Verify the live application and document the results.
 - Complete the remaining accessibility checks.
 - Continue improving reusable components and data integration.
 - Prepare for the Week 2 requirements.
 
-## 8. Reflection
+## 7. Reflection
 
 Week 1 established the initial application, core interactions, documentation, version control, and deployment. The next phase will focus on improving the application's structure, integrating data, and strengthening its error handling and reliability.
