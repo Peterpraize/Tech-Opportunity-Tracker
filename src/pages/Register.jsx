@@ -1,11 +1,17 @@
 
-import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import '../App.css'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth.js'
+import {
+  ADMIN_DEMO_EMAIL,
+  saveDemoAccount,
+  getRoleHome,
+} from '../context/demoAccounts.js'
 import './Auth.css'
 
 function Register() {
   const navigate = useNavigate()
+  const { user, startDemoSession, isAuthenticated } = useAuth()
 
   const [form, setForm] = useState({
     fullName: '',
@@ -13,31 +19,37 @@ function Register() {
     password: '',
     confirmPassword: '',
     agree: false,
+    accountType: 'applicant',
   })
 
-  const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const [registrationChecked, setRegistrationChecked] =
-    useState(false)
+
+  if (isAuthenticated) {
+    return <Navigate to={getRoleHome(user?.role)} replace />
+  }
 
   function handleChange(event) {
-    const { name, value, type, checked } = event.target
+    const { name, value, checked, type } = event.target
 
     setForm((previous) => ({
       ...previous,
       [name]: type === 'checkbox' ? checked : value,
     }))
-
-    setError('')
-    setMessage('')
-    setRegistrationChecked(false)
   }
 
   function handleSubmit(event) {
     event.preventDefault()
     setError('')
-    setMessage('')
-    setRegistrationChecked(false)
+
+    if (!form.fullName.trim() || !form.email.trim()) {
+      setError('Please complete all required fields.')
+      return
+    }
+
+    if (form.password.length < 8) {
+      setError('Your password must contain at least 8 characters.')
+      return
+    }
 
     if (form.password !== form.confirmPassword) {
       setError('Your passwords do not match.')
@@ -45,66 +57,83 @@ function Register() {
     }
 
     if (!form.agree) {
-      setError(
-        'Please confirm that you understand how registration works.'
-      )
+      setError('Please accept the terms to continue.')
       return
     }
 
-    setMessage(
-      'Your details have been checked, but an account has not been created. Account registration will be available when account services are connected.'
-    )
-    setRegistrationChecked(true)
+    const email = form.email.trim().toLowerCase()
 
-    setForm((previous) => ({
-      ...previous,
-      password: '',
-      confirmPassword: '',
-    }))
+    if (email === ADMIN_DEMO_EMAIL) {
+      setError('This email address is reserved.')
+      return
+    }
+
+    const accountSaved = saveDemoAccount({
+      fullName: form.fullName,
+      email,
+      role: form.accountType,
+    })
+
+    if (!accountSaved) {
+      setError('An account with this email already exists. Please sign in.')
+      return
+    }
+
+    startDemoSession({
+      fullName: form.fullName,
+      email,
+      role: form.accountType,
+    })
+
+    navigate(getRoleHome(form.accountType), { replace: true })
   }
 
   return (
-    <main className="app-shell auth-page">
+    <main className="auth-page">
       <section className="auth-card">
-        <span className="section-kicker">JOIN TECHTRACK</span>
+        <p className="auth-eyebrow">JOIN TECHTRACK</p>
 
         <h1>Create your account</h1>
 
         <p className="auth-description">
-          Build your profile and get ready to explore opportunities
-          that match your career goals.
+          Register to access TechTrack and connect with relevant
+          technology opportunities.
         </p>
 
-        {error && (
-          <p className="auth-notice auth-error" role="alert">
-            {error}
-          </p>
-        )}
-
-        {message && (
-          <p className="auth-notice" role="status">
-            {message}
-          </p>
-        )}
-
         <form className="auth-form" onSubmit={handleSubmit}>
-          <label htmlFor="register-name">Full name</label>
+          <label htmlFor="accountType">Register as</label>
+          <select
+            id="accountType"
+            name="accountType"
+            value={form.accountType}
+            onChange={handleChange}
+            required
+          >
+            <option value="applicant">Applicant / Client</option>
+            <option value="company">Company / Organization</option>
+          </select>
 
+          <label htmlFor="fullName">
+            {form.accountType === 'company' ? 'Company name' : 'Full name'}
+          </label>
           <input
-            id="register-name"
+            id="fullName"
             name="fullName"
             type="text"
             autoComplete="name"
             value={form.fullName}
             onChange={handleChange}
-            placeholder="Enter your full name"
+            placeholder={
+              form.accountType === 'company'
+                ? 'Enter your company name'
+                : 'Enter your full name'
+            }
             required
           />
 
-          <label htmlFor="register-email">Email address</label>
-
+          <label htmlFor="email">Email address</label>
           <input
-            id="register-email"
+            id="email"
             name="email"
             type="email"
             autoComplete="email"
@@ -114,10 +143,9 @@ function Register() {
             required
           />
 
-          <label htmlFor="register-password">Password</label>
-
+          <label htmlFor="password">Password</label>
           <input
-            id="register-password"
+            id="password"
             name="password"
             type="password"
             autoComplete="new-password"
@@ -128,12 +156,9 @@ function Register() {
             required
           />
 
-          <label htmlFor="register-confirm-password">
-            Confirm password
-          </label>
-
+          <label htmlFor="confirmPassword">Confirm password</label>
           <input
-            id="register-confirm-password"
+            id="confirmPassword"
             name="confirmPassword"
             type="password"
             autoComplete="new-password"
@@ -144,47 +169,33 @@ function Register() {
             required
           />
 
-          <label className="apply-consent">
+          <label className="terms-checkbox">
             <input
-              name="agree"
               type="checkbox"
+              name="agree"
               checked={form.agree}
               onChange={handleChange}
               required
             />
-
             <span>
-              I understand that submitting this form does not create
-              an account yet.
+              I agree to the applicable terms and privacy policy.
             </span>
           </label>
 
-          <button className="primary-button" type="submit">
-            Check registration details
+          {error && (
+            <p className="auth-error" role="alert">
+              {error}
+            </p>
+          )}
+
+          <button type="submit" className="auth-submit-button">
+            Create Account
           </button>
         </form>
 
-        {registrationChecked && (
-          <button
-            className="primary-button register-continue-button"
-            type="button"
-            onClick={() => navigate('/login')}
-          >
-            Go to login
-          </button>
-        )}
-
         <p className="auth-switch">
-          Already have an account? <Link to="/login">Log in</Link>
+          Already have an account? <Link to="/login">Sign in</Link>
         </p>
-
-        <button
-          className="auth-back-button"
-          type="button"
-          onClick={() => navigate('/')}
-        >
-          Back to home
-        </button>
       </section>
     </main>
   )

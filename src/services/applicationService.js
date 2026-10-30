@@ -19,12 +19,17 @@ export function getApplications() {
 
 export function saveApplication(application) {
   const applications = getApplications();
+  const id = crypto.randomUUID();
+  const now = new Date().toISOString();
 
   const newApplication = {
     ...application,
-    id: crypto.randomUUID(),
-    status: 'Recorded locally',
-    submittedAt: new Date().toISOString(),
+    id,
+    reference: `TT-${id.replaceAll('-', '').slice(0, 8).toUpperCase()}`,
+    status: 'Application recorded',
+    stage: 'recorded',
+    submittedAt: now,
+    updatedAt: now,
   };
 
   const updatedApplications = [newApplication, ...applications];

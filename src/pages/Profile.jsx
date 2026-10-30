@@ -1,9 +1,14 @@
 
 import { useState } from 'react'
+import { useAuth } from '../context/useAuth.js'
 import ApplicantNav from '../components/ApplicantNav'
 import './Profile.css'
 
 const PROFILE_STORAGE_KEY = 'techtrack-demo-profile'
+const PROFILES_KEY = 'techtrack-applicant-profiles'
+
+const MAX_PHOTO_SIZE = 500 * 1024
+const MAX_CV_SIZE = 1024 * 1024
 
 const initialProfile = {
   fullName: '',
@@ -14,44 +19,191 @@ const initialProfile = {
   skills: '',
   interests: 'Internship',
   careerGoal: '',
+  profilePhoto: '',
+  cv: null,
 }
 
-function loadProfile() {
+function loadProfile(accountEmail) {
   try {
+    const storedProfiles = JSON.parse(
+      localStorage.getItem(PROFILES_KEY) || '[]'
+    )
+
+    if (Array.isArray(storedProfiles) && accountEmail) {
+      const savedApplicant = storedProfiles.find(
+        (item) =>
+          item.accountEmail?.toLowerCase() ===
+          accountEmail.toLowerCase()
+      )
+
+      if (savedApplicant) {
+        return { ...initialProfile, ...savedApplicant }
+      }
+    }
+
     const savedProfile = localStorage.getItem(PROFILE_STORAGE_KEY)
 
-    if (!savedProfile) {
-      return initialProfile
-    }
-
-    const parsedProfile = JSON.parse(savedProfile)
-
-    return {
-      ...initialProfile,
-      ...parsedProfile,
+    if (savedProfile) {
+      return { ...initialProfile, ...JSON.parse(savedProfile) }
     }
   } catch {
-    return initialProfile
+
+  }
+
+  return {
+    ...initialProfile,
+    email: accountEmail || '',
   }
 }
 
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = () => reject(new Error('Unable to read this file.'))
+
+    reader.readAsDataURL(file)
+  })
+}
+
 function Profile() {
-  const [profile, setProfile] = useState(loadProfile)
+  const { user } = useAuth()
+
+  const [profile, setProfile] = useState(() =>
+    loadProfile(user?.email)
+  )
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [isSaved, setIsSaved] = useState(false)
+  const [isReadingFile, setIsReadingFile] = useState(false)
 
   function handleChange(event) {
     const { name, value } = event.target
 
-    setProfile((currentProfile) => ({
-      ...currentProfile,
+    setProfile((current) => ({
+      ...current,
       [name]: value,
     }))
 
     setMessage('')
     setError('')
     setIsSaved(false)
+  }
+
+  async function handlePhotoChange(event) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file.')
+      return
+    }
+
+    if (file.size > MAX_PHOTO_SIZE) {
+      setError('Your profile photo must be 500 KB or smaller.')
+      return
+    }
+
+    setIsReadingFile(true)
+    setError('')
+    setMessage('')
+
+    try {
+      const data = await readFileAsDataURL(file)
+
+      setProfile((current) => ({
+        ...current,
+        profilePhoto: data,
+      }))
+
+      setIsSaved(false)
+      setMessage('Photo selected. Save your profile to keep it.')
+    } catch {
+      setError('Unable to read your photo. Please try another file.')
+    } finally {
+      setIsReadingFile(false)
+    }
+  }
+
+  async function handleCVChange(event) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+
+    if (!file) return
+
+    const extension = file.name.split('.').pop()?.toLowerCase()
+    const isPDF =
+      extension === 'pdf' &&
+      (file.type === 'application/pdf' || file.type === '')
+
+    const isDOCX =
+      extension === 'docx' &&
+      (
+        file.type ===
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+        file.type === ''
+      )
+
+    if (!isPDF && !isDOCX) {
+      setError('Upload your CV as a PDF or DOCX file.')
+      return
+    }
+
+    if (file.size > MAX_CV_SIZE) {
+      setError('Your CV must be 1 MB or smaller for this demo.')
+      return
+    }
+
+    setIsReadingFile(true)
+    setError('')
+    setMessage('')
+
+    try {
+      const data = await readFileAsDataURL(file)
+
+      setProfile((current) => ({
+        ...current,
+        cv: {
+          name: file.name,
+          type: isPDF ? 'pdf' : 'docx',
+          size: file.size,
+          data,
+          uploadedAt: new Date().toISOString(),
+        },
+      }))
+
+      setIsSaved(false)
+      setMessage('CV selected. Save your profile to keep it.')
+    } catch {
+      setError('Unable to read your CV. Please try another file.')
+    } finally {
+      setIsReadingFile(false)
+    }
+  }
+
+  function handleRemovePhoto() {
+    setProfile((current) => ({
+      ...current,
+      profilePhoto: '',
+    }))
+
+    setIsSaved(false)
+    setMessage('')
+    setError('')
+  }
+
+  function handleRemoveCV() {
+    setProfile((current) => ({
+      ...current,
+      cv: null,
+    }))
+
+    setIsSaved(false)
+    setMessage('')
+    setError('')
   }
 
   function handleSubmit(event) {
@@ -70,17 +222,55 @@ function Profile() {
     }
 
     try {
-      localStorage.setItem(
-        PROFILE_STORAGE_KEY,
-        JSON.stringify(profile)
+      const storedProfiles = JSON.parse(
+        localStorage.getItem(PROFILES_KEY) || '[]'
       )
 
+      const profiles = Array.isArray(storedProfiles)
+        ? storedProfiles
+        : []
+
+      const accountEmail = (
+        user?.email || profile.email
+      ).trim().toLowerCase()
+
+      const updatedProfile = {
+        ...profile,
+        fullName: profile.fullName.trim(),
+        email: accountEmail,
+        accountEmail,
+        updatedAt: new Date().toISOString(),
+      }
+
+      const existingIndex = profiles.findIndex(
+        (item) =>
+          item.accountEmail?.toLowerCase() === accountEmail
+      )
+
+      if (existingIndex >= 0) {
+        profiles[existingIndex] = updatedProfile
+      } else {
+        profiles.push(updatedProfile)
+      }
+
+      localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles))
+
+      const legacyProfile = { ...updatedProfile }
+      delete legacyProfile.profilePhoto
+      delete legacyProfile.cv
+
+      localStorage.setItem(
+        PROFILE_STORAGE_KEY,
+        JSON.stringify(legacyProfile)
+      )
+
+      setProfile(updatedProfile)
       setError('')
-      setMessage('Your profile has been saved successfully.')
+      setMessage('Your profile, photo and CV have been saved.')
       setIsSaved(true)
     } catch {
       setError(
-        'We could not save your profile. Check your browser storage and try again.'
+        'Unable to save your profile. Browser storage may be full. Try a smaller CV or photo.'
       )
       setMessage('')
       setIsSaved(false)
@@ -89,9 +279,32 @@ function Profile() {
 
   function handleClear() {
     try {
+      const accountEmail = user?.email?.toLowerCase()
+
+      const storedProfiles = JSON.parse(
+        localStorage.getItem(PROFILES_KEY) || '[]'
+      )
+
+      if (Array.isArray(storedProfiles) && accountEmail) {
+        const remainingProfiles = storedProfiles.filter(
+          (item) =>
+            item.accountEmail?.toLowerCase() !== accountEmail
+        )
+
+        localStorage.setItem(
+          PROFILES_KEY,
+          JSON.stringify(remainingProfiles)
+        )
+      }
+
       localStorage.removeItem(PROFILE_STORAGE_KEY)
-      setProfile(initialProfile)
-      setMessage('Your profile has been cleared.')
+
+      setProfile({
+        ...initialProfile,
+        email: user?.email || '',
+      })
+
+      setMessage('Your saved profile has been cleared.')
       setError('')
       setIsSaved(false)
     } catch {
@@ -103,16 +316,133 @@ function Profile() {
   return (
     <main className="profile-page">
       <ApplicantNav />
+
       <section className="profile-heading">
         <p className="profile-eyebrow">YOUR CAREER PROFILE</p>
         <h1>Tell TechTrack about yourself.</h1>
         <p>
-          Add your background, skills, and interests to prepare for
+          Add your background, skills, CV and photo to prepare for
           opportunities that match your career goals.
         </p>
       </section>
 
       <form className="profile-form" onSubmit={handleSubmit}>
+        <section className="profile-form-section">
+          <h2>Profile photo</h2>
+          <p>
+            Add a professional photo so your profile is easy to identify.
+          </p>
+
+          <div className="tt-profile-photo-area">
+            {profile.profilePhoto ? (
+              <img
+                className="tt-profile-photo"
+                src={profile.profilePhoto}
+                alt="Your profile"
+              />
+            ) : (
+              <div className="tt-profile-photo-placeholder">
+                {profile.fullName?.charAt(0)?.toUpperCase() || '?'}
+              </div>
+            )}
+
+            <div className="tt-upload-controls">
+              <label className="tt-upload-button">
+                Upload photo
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handlePhotoChange}
+                  disabled={isReadingFile}
+                  hidden
+                />
+              </label>
+
+              {profile.profilePhoto && (
+                <button
+                  type="button"
+                  className="tt-secondary-button"
+                  onClick={handleRemovePhoto}
+                >
+                  Remove photo
+                </button>
+              )}
+
+              <small>JPG, PNG or WebP. Maximum 500 KB.</small>
+            </div>
+          </div>
+        </section>
+
+        <section className="profile-form-section">
+          <h2>Your CV or Resume</h2>
+          <p>
+            Upload your latest CV so TechTrack can use it for applicant
+            screening and opportunity matching.
+          </p>
+
+
+          <div className="tt-cv-upload">
+            <label className="tt-cv-select-button">
+              <input
+                type="file"
+                accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                onChange={handleCVChange}
+                disabled={isReadingFile}
+                hidden
+              />
+              <span>+ Choose CV</span>
+            </label>
+
+            <p className="tt-cv-selected-name">
+              {profile.cv?.name || 'No CV selected'}
+            </p>
+
+            <small>PDF or DOCX. Maximum 1 MB.</small>
+          </div>
+
+
+          {profile.cv && (
+            <div className="tt-cv-card">
+              <div>
+                <strong>{profile.cv.name}</strong>
+                <p>
+                  {profile.cv.type.toUpperCase()} ·{' '}
+                  {(profile.cv.size / 1024).toFixed(0)} KB
+                </p>
+                {profile.cv.uploadedAt && (
+                  <small>
+                    Uploaded{' '}
+                    {new Date(profile.cv.uploadedAt).toLocaleDateString()}
+                  </small>
+                )}
+              </div>
+
+              {profile.cv.data && (
+                <a
+                  href={profile.cv.data}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tt-cv-download"
+                >
+                  View CV
+                </a>
+              )}
+
+              <button
+                type="button"
+                className="tt-secondary-button"
+                onClick={handleRemoveCV}
+              >
+                Remove CV
+              </button>
+            </div>
+          )}
+
+          {!profile.cv && (
+            <p className="tt-no-cv">No CV uploaded yet.</p>
+          )}
+        </section>
+
         <section className="profile-form-section">
           <h2>Personal information</h2>
           <p>Start with the details you want organizations to know.</p>
@@ -149,7 +479,7 @@ function Profile() {
                 name="location"
                 value={profile.location}
                 onChange={handleChange}
-                placeholder="e.g. Lagos, Nigeria"
+                placeholder="Lagos, Nigeria"
                 autoComplete="address-level2"
               />
             </label>
@@ -160,7 +490,7 @@ function Profile() {
                 name="education"
                 value={profile.education}
                 onChange={handleChange}
-                placeholder="e.g. Computer Science student"
+                placeholder="Bachelor of Science in Computer Science"
               />
             </label>
           </div>
@@ -187,7 +517,7 @@ function Profile() {
               name="skills"
               value={profile.skills}
               onChange={handleChange}
-              placeholder="e.g. JavaScript, React, Node.js, PostgreSQL"
+              placeholder="JavaScript, React, Node.js, PostgreSQL"
               rows={3}
             />
           </label>
@@ -219,50 +549,37 @@ function Profile() {
                 name="careerGoal"
                 value={profile.careerGoal}
                 onChange={handleChange}
-                placeholder="e.g. Become a backend developer"
+                placeholder="Become a backend developer"
               />
             </label>
           </div>
         </section>
-<div
-  className="profile-form-actions"
-  style={{
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: '12px',
-    width: '100%',
-    marginTop: '24px',
-  }}
->
-  <button
-    type="submit"
-    className="profile-save-button"
-    style={{
-      flex: '0 1 auto',
-      width: 'auto',
-      minWidth: '140px',
-      margin: 0,
-    }}
-  >
-    {isSaved ? 'Profile saved' : 'Save profile'}
-  </button>
 
-  <button
-    type="button"
-    className="profile-save-button profile-clear-button"
-    onClick={handleClear}
-    style={{
-      flex: '0 1 auto',
-      width: 'auto',
-      minWidth: '140px',
-      margin: 0,
-    }}
-  >
-    Clear saved profile
-  </button>
-</div>
+        <div className="profile-form-actions">
+          <button
+            type="submit"
+            className="profile-save-button"
+            disabled={isReadingFile}
+          >
+            {isSaved ? 'Profile saved' : 'Save profile'}
+          </button>
+
+          <button
+            type="button"
+            className="profile-save-button profile-clear-button"
+            onClick={handleClear}
+            disabled={isReadingFile}
+          >
+            Clear saved profile
+          </button>
+        </div>
+
+        {isReadingFile && (
+          <p className="profile-message" role="status">
+            Reading file…
+          </p>
+        )}
+
         {error && (
           <p className="profile-message" role="alert">
             {error}
@@ -274,8 +591,9 @@ function Profile() {
             {message}
           </p>
         )}
-      </form>     
+      </form>
     </main>
   )
 }
+
 export default Profile

@@ -96,3 +96,48 @@
     text-align: center;
   }
 }
+
+.navbar a,
+.navbar button {
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.navbar a:hover,
+.navbar button:hover {
+  color: #14532d;
+}
+
+.navbar a:focus-visible,
+.navbar button:focus-visible {
+  outline: 2px solid #14532d;
+  outline-offset: 4px;
+}
+
+.navbar a.active {
+  color: #14532d;
+  font-weight: 700;
+}
+
+.navbar a,
+.navbar button {
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.navbar a:hover,
+.navbar button:hover {
+  color: #14532d !important;
+}
+
+.navbar a.active {
+  color: #14532D;
+  font-weight: 700;
+}
+
+.navbar a:focus-visible,
+.navbar button:focus-visible {
+  outline: 2px solid #14532d;
+  outline-offset: 4px;
+}
+

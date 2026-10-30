@@ -13,6 +13,7 @@ function Apply() {
   const [opportunity, setOpportunity] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -71,10 +72,10 @@ function Apply() {
         opportunityId: opportunity.id,
         opportunityTitle: opportunity.title,
         organization: opportunity.organization,
-        fullName: form.fullName,
-        email: form.email,
-        phone: form.phone,
-        message: form.message,
+        fullName: form.fullName.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        message: form.message.trim(),
       })
 
       navigate('/my-applications', {
@@ -82,7 +83,7 @@ function Apply() {
       })
     } catch {
       setError(
-        'Unable to save this demo application in your browser. Please try again.'
+        'Unable to save your application. Please try again.'
       )
     }
   }
@@ -95,7 +96,7 @@ function Apply() {
     )
   }
 
-  if (error) {
+  if (error && !opportunity) {
     return (
       <main className="empty-state">
         <h2>Unable to process application</h2>
@@ -117,7 +118,10 @@ function Apply() {
   return (
     <main className="app-shell apply-page">
       <section className="opportunities-section">
-        <Link className="secondary-button" to={`/opportunities/${id}`}>
+        <Link
+          className="secondary-button"
+          to={`/opportunities/${id}`}
+        >
           ← Back to opportunity
         </Link>
 
@@ -126,10 +130,6 @@ function Apply() {
           <h1>Apply for {opportunity.title}</h1>
           <p>{opportunity.organization}</p>
         </div>
-
-        <p className="apply-demo-notice" role="note">
-  I confirm that my information is accurate and consent to TechTrack processing my data and sharing my application with the opportunity provider in accordance with the Privacy Policy.
-</p>
 
         <form className="apply-form" onSubmit={handleSubmit}>
           <label htmlFor="fullName">Full name</label>
@@ -167,7 +167,9 @@ function Apply() {
             placeholder="Enter your phone number"
           />
 
-          <label htmlFor="message">Why are you interested? (optional)</label>
+          <label htmlFor="message">
+            Why are you interested? (optional)
+          </label>
           <textarea
             id="message"
             name="message"
@@ -185,8 +187,16 @@ function Apply() {
               onChange={handleChange}
               required
             />
-           I consent to the processing of my personal information in accordance with TechTrack’s Privacy Policy.
+            I understand that my application details will be stored
+            locally in this browser and will not be sent to the
+            opportunity provider.
           </label>
+
+          {error && (
+            <p role="alert" className="form-error">
+              {error}
+            </p>
+          )}
 
           <button className="primary-button" type="submit">
             Continue to application tracking →

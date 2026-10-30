@@ -1,0 +1,221 @@
+
+.company-dashboard {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+  color: #173b2a;
+}
+
+.company-welcome {
+  padding: 32px;
+  border-radius: 18px;
+  background: #fbf7ec;
+  border: 1px solid #e5e8dd;
+}
+
+.company-eyebrow {
+  color: #b36a17;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.company-welcome h1 {
+  margin: 10px 0;
+  color: #14532d;
+}
+
+.company-welcome > p:not(.company-eyebrow) {
+  max-width: 650px;
+  line-height: 1.7;
+}
+
+.company-primary-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 20px;
+  margin-top: 12px;
+  border-radius: 30px;
+  background: #14532d;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background 0.2s ease;
+}
+
+.company-primary-button:hover {
+  background: #8f8e8e;
+  color: #173b2a;
+}
+
+.company-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 26px 0 40px;
+}
+
+.company-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border: 1px solid #e2e8e0;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.company-stat-card span {
+  color: #68766d;
+  font-size: 14px;
+}
+
+.company-stat-card strong {
+  font-size: 30px;
+  color: #14532d;
+}
+
+.company-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.company-section-heading h2 {
+  margin-bottom: 6px;
+}
+
+.company-section-heading p {
+  color: #68766d;
+  line-height: 1.5;
+}
+
+.company-section-heading a {
+  color: #14532d;
+  font-weight: 700;
+}
+
+.company-empty-state {
+  padding: 40px 24px;
+  border: 1px dashed #cbd5cf;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.company-empty-state p {
+  color: #68766d;
+  line-height: 1.6;
+}
+
+.company-offer-list {
+  display: grid;
+  gap: 14px;
+}
+
+.company-offer-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid #e2e8e0;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.company-offer-card h3 {
+  margin: 0 0 8px;
+}
+
+.company-offer-card p,
+.company-offer-card small {
+  color: #68766d;
+  line-height: 1.6;
+}
+
+.company-offer-status {
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #fbf0d1;
+  color: #76510d;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (max-width: 650px) {
+  .company-dashboard {
+    padding: 24px 16px 40px;
+  }
+
+  .company-welcome {
+    padding: 24px;
+  }
+
+  .company-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .company-section-heading,
+  .company-offer-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.company-offer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 760px;
+  margin: 28px auto 0;
+  padding: 28px;
+  border: 1px solid #e2e8e0;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.company-offer-form label {
+  margin-top: 8px;
+  font-weight: 600;
+  color: #173b2a;
+}
+
+.company-offer-form input,
+.company-offer-form select,
+.company-offer-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5cf;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.company-offer-form input:focus,
+.company-offer-form select:focus,
+.company-offer-form textarea:focus {
+  outline: 2px solid #14532d;
+  outline-offset: 2px;
+}
+
+.company-offer-form textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.company-offer-form .auth-submit-button {
+  width: 100%;
+  max-width: 300px;
+  align-self: center;
+}
+
+@media (max-width: 480px) {
+  .company-offer-form {
+    padding: 20px;
+  }
+}
+
