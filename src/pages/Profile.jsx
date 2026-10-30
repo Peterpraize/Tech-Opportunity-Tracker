@@ -46,9 +46,9 @@ function loadProfile(accountEmail) {
     if (savedProfile) {
       return { ...initialProfile, ...JSON.parse(savedProfile) }
     }
-  } catch {
-
-  }
+  } catch (error) {
+  console.error('Unable to load the saved profile:', error)
+}
 
   return {
     ...initialProfile,

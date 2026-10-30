@@ -181,12 +181,13 @@ function getMatchScore(offer, applicant) {
 }
 
 
+
 function AdminDashboard() {
   const [offers, setOffers] = useState(() =>
     readStorage(OFFERS_KEY)
   )
 
-  const [applicants, setApplicants] = useState(() =>
+  const [applicants] = useState(() =>
     readStorage(PROFILES_KEY)
   )
 

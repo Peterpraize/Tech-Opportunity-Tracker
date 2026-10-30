@@ -22,7 +22,7 @@ function readOffers(email) {
 
 function CompanyDashboard() {
   const { user } = useAuth()
-  const [offers, setOffers] = useState(
+  const [offers] = useState(
     () => readOffers(user?.email)
   )
 

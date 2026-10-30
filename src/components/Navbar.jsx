@@ -6,7 +6,7 @@ import './Navbar.css'
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const { user, isAuthenticated, logout } = useAuth()
+  const { isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
 
   const closeMenu = () => setMenuOpen(false)
